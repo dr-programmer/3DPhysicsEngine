@@ -1,0 +1,15 @@
+﻿  Lighting.cpp
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(51,47): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(51,40): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(177,95): warning C4305: 'argument': truncation from 'int' to 'GLboolean'
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(177,40): warning C4309: 'argument': truncation of constant value
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(228,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(383,14): warning C4305: '+=': truncation from 'double' to 'float'
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(386,14): warning C4305: '-=': truncation from 'double' to 'float'
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(404,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(405,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(409,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(410,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(411,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\OpenGL\Projects\Testing_OpenGL\Testing_OpenGL\Lighting.cpp(412,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Testing_OpenGL.vcxproj -> D:\OpenGL\Projects\Testing_OpenGL\x64\Debug\Testing_OpenGL.exe

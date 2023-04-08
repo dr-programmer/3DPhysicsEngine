@@ -1,0 +1,59 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.34.31937.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///d:/opengl/projects/testing_opengl/testing_opengl/drawtriangle_exercise.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "b911ffda99cdb5700b7311d5eeed5c4066b4b5cb4092b802e1ce231fe82bc276"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/include/headerfiles/glad/glad.h"
+          },
+          "hashes": {
+            "sha-256": "b089e8e25354d2fd7d4c8f79d27ec258fd61dac9d52947edea79dc1372891f08"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/include/headerfiles/khr/khrplatform.h"
+          },
+          "hashes": {
+            "sha-256": "7b1e01aaa7ad8f6fc34b5c7bdf79ebf5189bb09e2c4d2e79fc5d350623d11e83"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/include/headerfiles/glfw/glfw3.h"
+          },
+          "hashes": {
+            "sha-256": "0992a30f01ebaa41c32f3f0588e942961abb8a9a52ca8764bd32ee4d7d71a46d"
+          }
+        }
+      ]
+    }
+  ]
+}
