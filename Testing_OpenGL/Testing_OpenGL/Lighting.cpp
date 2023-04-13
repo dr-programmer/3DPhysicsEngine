@@ -220,10 +220,13 @@ int main()
 	Shader lightingShader("shader.v", "shader.f");
 	Shader lightingSourceShader("lightsource.v", "lightsource.f");
 
-	Physics containerPhysics(cubePositions[0]);
+	Physics containerPhysics(cubePositions[0], 1);
+
+	unsigned int force1 = containerPhysics.createForce(glm::vec3(1.0f, 0.0f, 0.0f));
 
 	//float containerVelocity = 0;
 	glEnable(GL_DEPTH_TEST);
+	glfwSetTime(0.0f);
 	while (!glfwWindowShouldClose(window)) {
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
@@ -324,6 +327,14 @@ int main()
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, containerPhysics.position);
 		if (fall) containerPhysics.gravity(deltaTime);
+		/*
+		static int check = 1;
+		if (fall && check) {
+			unsigned int force2 = containerPhysics.createForce(glm::vec3(-1.0f, 0.0f, 0.0f));
+			check = 0;
+		}
+		*/
+		containerPhysics.applyResultForce(deltaTime);
 		//gravity(&containerVelocity, &cubePositions[0]);
 		lightingShader.setMat4("model", model);
 
