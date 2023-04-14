@@ -326,14 +326,12 @@ int main()
 
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, containerPhysics.position);
-		if (fall) containerPhysics.gravity(deltaTime);
-		/*
 		static int check = 1;
 		if (fall && check) {
-			unsigned int force2 = containerPhysics.createForce(glm::vec3(-1.0f, 0.0f, 0.0f));
+			//unsigned int force2 = containerPhysics.createForce(glm::vec3(-1.0f, 0.0f, 0.0f));
+			unsigned int gravitationalForce = containerPhysics.gravity();
 			check = 0;
 		}
-		*/
 		containerPhysics.applyResultForce(deltaTime);
 		//gravity(&containerVelocity, &cubePositions[0]);
 		lightingShader.setMat4("model", model);

@@ -7,7 +7,7 @@
 
 class Physics {
 protected:
-	const float g = 9.8f;
+	glm::vec3 g = glm::vec3(0.0f, -9.8f, 0.0f);
 	glm::vec3 collision = glm::vec3(1.0f);
 	std::vector<glm::vec3> forces;
 
@@ -18,7 +18,7 @@ public:
 
 	Physics(glm::vec3 startPosition, float mass);
 
-	void gravity(float deltaTime);
+	unsigned int gravity();
 	void checkCollisions();
 	unsigned int createForce(glm::vec3 force);
 	glm::vec3 changeForce(unsigned int forceIndex, glm::vec3 force);
@@ -30,14 +30,12 @@ Physics::Physics(glm::vec3 startPosition, float mass) {
 	this->mass = mass;
 }
 
-void Physics::gravity(float deltaTime) {
-	checkCollisions();
-
-	static float velocity = 0;
-	float oldVelocity = velocity * collision.y;
-	velocity = (velocity + this->g * deltaTime) * collision.y;
-	float averageVelocity = (velocity + oldVelocity) / 2;
-	this->position.y -= averageVelocity * deltaTime;
+unsigned int Physics::gravity() {
+	glm::vec3 gravitaionalForce = g * this->mass;
+	forces.push_back(gravitaionalForce);
+	unsigned int size = forces.size();
+	size--;
+	return size;
 }
 
 void Physics::checkCollisions() {
@@ -63,6 +61,8 @@ glm::vec3 Physics::changeForce(unsigned int forceIndex, glm::vec3 force) {
 }
 
 void Physics::applyResultForce(float deltaTime) {
+	checkCollisions();
+
 	glm::vec3 resultForce = glm::vec3(0.0f);
 	for (int i = 0; i < forces.size(); i++) {
 		resultForce += forces[i];
