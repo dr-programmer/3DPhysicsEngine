@@ -25,6 +25,7 @@ public:
 	void setFloat(const std::string& name, float value) const;
 	void setMat4(const std::string& name, glm::mat4 value) const;
 	void setVec3(const std::string& name, glm::vec3 value) const;
+	void setVec4(const std::string& name, glm::vec4 value) const;
 };
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath) {
@@ -116,6 +117,10 @@ void Shader::setMat4(const std::string& name, glm::mat4 value) const {
 
 void Shader::setVec3(const std::string& name, glm::vec3 value) const {
 	glUniform3f(glGetUniformLocation(ID, name.c_str()), value.x, value.y, value.z);
+}
+
+void Shader::setVec4(const std::string& name, glm::vec4 value) const {
+	glUniform4f(glGetUniformLocation(ID, name.c_str()), value.x, value.y, value.z, value.w);
 }
 
 #endif

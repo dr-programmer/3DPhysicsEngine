@@ -4,10 +4,12 @@
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtc/matrix_transform.hpp>
 #include <glm/glm/gtc/type_ptr.hpp>
+#include <vector>
 
 #include "ShaderClass.h"
 #include "stb_image.h"
 #include "PhysicsClass.h"
+#include "TextureImporter.h"
 
 #define WIDTH 800.0f
 #define HEIGHT 600.0f
@@ -114,6 +116,15 @@ int main()
 		1, 2, 3
 	};
 
+	float particleVertices[] = {
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, 0.0f, 1.0f, 1.0f
+	};
+
 	int width, height, nrChannels;
 	unsigned char* data;
 
@@ -154,6 +165,8 @@ int main()
 
 	stbi_image_free(data);
 
+	//TextureImporter smokeTexture("smoke-texture.jpg", false);
+
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 
@@ -183,6 +196,19 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	unsigned int particleVBO;
+	glGenBuffers(1, &particleVBO);
+	unsigned int particaleVAO;
+	glGenVertexArrays(1, &particaleVAO);
+	glBindVertexArray(particaleVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, particleVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(particleVertices), particleVertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	glm::vec3 cubePositions[] = {
 		glm::vec3(0.0f, 0.0f, 0.0f),
@@ -219,10 +245,17 @@ int main()
 
 	Shader lightingShader("shader.v", "shader.f");
 	Shader lightingSourceShader("lightsource.v", "lightsource.f");
+	Shader particleShader("particleShader.v", "particleShader.f");
 
 	Physics containerPhysics(cubePositions[0], 1);
 
 	unsigned int force1 = containerPhysics.createForce(glm::vec3(1.0f, 0.0f, 0.0f));
+
+	std::vector<Particle> particles;
+
+	unsigned int numParticles = 500, ppf = 1, particleMass = 1;
+	Physics particlePhysics(&particles, numParticles, ppf, particleMass);
+	particlePhysics.createParticleSpawn(glm::vec3(0.0f, 0.0f, 0.8f));
 
 	//float containerVelocity = 0;
 	glEnable(GL_DEPTH_TEST);
@@ -368,13 +401,36 @@ int main()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
+		particleShader.use();
+		particleShader.setMat4("view", view);
+		particleShader.setMat4("projection", projection);
+		particleShader.setInt("smokeTexture", 0);
+
+		//smokeTexture.use(0);
+		glBindVertexArray(particaleVAO);
+		particlePhysics.spawnParticles(deltaTime);
+
+		model = glm::mat4(1.0f);
+		for (unsigned int i = 0; i < 50; i++) {
+			model = glm::inverse(glm::lookAt(particles[i].position, cameraPos, cameraUp));
+			model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
+			particleShader.setMat4("model", model);
+			particleShader.setVec4("color", particles[i].color);
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+		}
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteVertexArrays(1, &lightVAO);
+	glDeleteVertexArrays(1, &particaleVAO);
 	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &particleVBO);
+
 	lightingShader.deleteProgram();
+	lightingSourceShader.deleteProgram();
+	particleShader.deleteProgram();
 
 	glfwTerminate();
 	return 0;
