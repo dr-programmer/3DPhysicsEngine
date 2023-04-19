@@ -22,6 +22,7 @@ protected:
 	unsigned int maxNumParticles;
 	unsigned int ppf;
 	glm::vec3 particleSpawnPos;
+	unsigned int lastUnusedParticle = 0;
 
 public:
 	glm::vec3 position;
@@ -118,7 +119,7 @@ void Physics::applyResultForce(Particle& particle, float deltaTime) {
 	particle.velocity *= collision;
 	glm::vec3 avgResultVelocity = oldResultVelocity + particle.velocity;
 	avgResultVelocity /= 2;
-	this->position += avgResultVelocity * deltaTime;
+	particle.position += avgResultVelocity * deltaTime;
 }
 
 void Physics::createParticleSpawn(glm::vec3 position) {
@@ -133,6 +134,7 @@ void Physics::spawnParticles(float deltaTime) {
 	for (unsigned int i = 0; i < this->ppf; i++) {
 		unsigned int unusedParticle = firstUnusedParticle();
 		respawnParticle((*particles)[unusedParticle]);
+		this->lastUnusedParticle = unusedParticle;
 	}
 
 	for (unsigned int i = 0; i < this->maxNumParticles; i++) {
@@ -141,14 +143,19 @@ void Physics::spawnParticles(float deltaTime) {
 		p.life -= deltaTime;
 		p.color -= deltaTime;
 		if (p.life > 0.0f) {
-			this->position = p.position;
+			//this->position = p.position;
 			applyResultForce(p, deltaTime);
-			p.position = this->position;
+			//p.position = this->position;
 		}
 	}
 }
 
 unsigned int Physics::firstUnusedParticle() {
+	for (unsigned int i = this->lastUnusedParticle; i < this->maxNumParticles; i++) {
+		if ((*particles)[i].life <= 0.0f) {
+			return i;
+		}
+	}
 	for (unsigned int i = 0; i < this->maxNumParticles; i++) {
 		if ((*particles)[i].life <= 0.0f) {
 			return i;

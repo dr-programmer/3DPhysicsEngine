@@ -11,8 +11,8 @@
 #include "PhysicsClass.h"
 #include "TextureImporter.h"
 
-#define WIDTH 800.0f
-#define HEIGHT 600.0f
+#define WIDTH 1000.0f
+#define HEIGHT 800.0f
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -253,7 +253,7 @@ int main()
 
 	std::vector<Particle> particles;
 
-	unsigned int numParticles = 500, ppf = 1, particleMass = 1;
+	unsigned int numParticles = 50, ppf = 1, particleMass = 1;
 	Physics particlePhysics(&particles, numParticles, ppf, particleMass);
 	particlePhysics.createParticleSpawn(glm::vec3(0.0f, 0.0f, 0.8f));
 
@@ -411,7 +411,7 @@ int main()
 		particlePhysics.spawnParticles(deltaTime);
 
 		model = glm::mat4(1.0f);
-		for (unsigned int i = 0; i < 50; i++) {
+		for (unsigned int i = 0; i < numParticles; i++) {
 			model = glm::inverse(glm::lookAt(particles[i].position, cameraPos, cameraUp));
 			model = glm::scale(model, glm::vec3(0.01f, 0.01f, 0.01f));
 			particleShader.setMat4("model", model);
